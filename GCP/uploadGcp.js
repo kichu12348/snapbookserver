@@ -25,7 +25,7 @@ async function uploadFile(file) {
       const blobStream = blob.createWriteStream({
         resumable: false,
         metadata: {
-          contentType: "image/jpeg",
+          contentType: file.mimeType,
         },
       });
 
