@@ -126,8 +126,10 @@ exports.updateTitle = async (req, res) => {
 
     await scrapbook.save();
 
-    const timeline = scrapbook.timeline[scrapbook.timeline.length - 1];
-    timeline.user =req.user;
+    const timeline = {
+      ...scrapbook.timeline[scrapbook.timeline.length - 1].toObject(),
+      user: req.user,
+    };
 
     // Notify clients via Socket.io, but exclude the sender
     const io = req.app.get("io");
