@@ -1,6 +1,6 @@
 const Scrapbook = require("../models/Scrapbook");
 const User = require("../models/User");
-const {deleteFile}=require("../GCP/uploadGcp")
+const { deleteFile } = require("../GCP/uploadGcp");
 
 let io;
 
@@ -165,7 +165,6 @@ exports.addItem = async (req, res) => {
     if (!scrapbook) {
       return res.status(404).json({ message: "Scrapbook not found" });
     }
-    console.log(scrapbook.owner,req.user)
     // Check if user is owner or collaborator
     const isOwner = scrapbook.owner.toString() === req.user._id;
     const isCollaborator = scrapbook.collaborators.some(
@@ -194,7 +193,7 @@ exports.addItem = async (req, res) => {
       itemType: type,
       details: {
         itemId: newItem._id,
-        content:content,
+        content: content,
       },
       timestamp: new Date(),
     });
@@ -215,6 +214,7 @@ exports.addItem = async (req, res) => {
           addedBy: {
             userId: req.user._id,
           },
+          timeline: scrapbook.timeline[scrapbook.timeline.length - 1], // Send the latest timeline entry
         });
     }
 
@@ -256,7 +256,7 @@ exports.removeItem = async (req, res) => {
     // Store item type for timeline before removing
     const removedItem = scrapbook.items[itemIndex];
 
-    if(removedItem.type==="image"){
+    if (removedItem.type === "image") {
       // Delete the image from GCP if it's an image item
       await deleteFile(removedItem.content);
     }
@@ -287,10 +287,14 @@ exports.removeItem = async (req, res) => {
           removedBy: {
             userId: req.user._id,
           },
+          timeline: scrapbook.timeline[scrapbook.timeline.length - 1], // Send the latest timeline entry
         });
     }
 
-    res.json({ success: true });
+    res.json({
+      success: true,
+      timeline: scrapbook.timeline[scrapbook.timeline.length - 1], // Send the latest timeline entry
+    });
   } catch (error) {
     console.error("Remove item error:", error);
     res.status(500).json({ message: "Server error" });
@@ -380,12 +384,14 @@ exports.addCollaborator = async (req, res) => {
           addedBy: {
             userId: req.user._id,
           },
+          timeline: scrapbook.timeline[scrapbook.timeline.length - 1], // Send the latest timeline entry
         });
     }
 
     res.json({
       success: true,
       collaborator: addedCollaborator,
+      timeline: scrapbook.timeline[scrapbook.timeline.length - 1], // Send the latest timeline entry
     });
   } catch (error) {
     console.error("Add collaborator error:", error);
@@ -446,10 +452,15 @@ exports.removeCollaborator = async (req, res) => {
           removedBy: {
             userId: req.user._id,
           },
+          timeline: scrapbook.timeline[scrapbook.timeline.length - 1], // Send the latest timeline entry
         });
     }
 
-    res.json({ success: true });
+    res.json({
+      success: true,
+      message: "Collaborator removed successfully",
+      timeline: scrapbook.timeline[scrapbook.timeline.length - 1], // Send the latest timeline entry
+    });
   } catch (error) {
     console.error("Remove collaborator error:", error);
     res.status(500).json({ message: "Server error" });

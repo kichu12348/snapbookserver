@@ -19,8 +19,6 @@ router.post('/login', authController.login);
 router.get('/search',auth, async (req, res) => {
   try {
     const { query } = req.query;
-    console.log('Search query:', query);
-    
     // Return empty array if query is too short
     if (!query || query.length < 2) {
       return res.json([]);
