@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const {updateUserInMap} = require('../middleware/auth');  
 
 let io;
 
@@ -45,7 +46,13 @@ exports.updateProfile = async (req, res) => {
     if (bio !== undefined) user.bio = bio;
     
     await user.save();
-    
+    const data ={
+      _id: user._id.toString(),
+      username: user.username,
+      email: user.email,
+      avatar: user.avatar
+    }
+    updateUserInMap(user._id.toString(), data); // Update user data in memory map
     res.json({ user });
   } catch (error) {
     console.error('Update profile error:', error);
