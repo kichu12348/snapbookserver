@@ -218,7 +218,11 @@ exports.addItem = async (req, res) => {
         });
     }
 
-    res.status(201).json(createdItem);
+    res.status(201).json({
+      success: true,
+      newItem: createdItem,
+      timeline: scrapbook.timeline[scrapbook.timeline.length - 1], // Send the latest timeline entry
+    });
   } catch (error) {
     console.error("Add item error:", error);
     res.status(500).json({ message: "Server error" });
