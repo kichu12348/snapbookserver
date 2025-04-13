@@ -30,4 +30,6 @@ router.post('/:id/collaborators', auth, scrapbookController.addCollaborator);
 // Remove collaborator from scrapbook
 router.delete('/:id/collaborators/:collaboratorId', auth, scrapbookController.removeCollaborator);
 
+router.delete('/:id', auth, scrapbookController.deleteScrapbook);
+
 module.exports = router;

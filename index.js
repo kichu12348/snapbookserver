@@ -63,6 +63,9 @@ setIoAuth(io);
 // Socket.io event handlers
 io.on('connection', (socket) => {
   // Join scrapbook room
+  socket.on('join-user', (userId) => {
+    socket.join(`user:${userId}`);
+  });
   socket.on('join-scrapbook', (scrapbookId) => {
     socket.join(`scrapbook:${scrapbookId}`);
 

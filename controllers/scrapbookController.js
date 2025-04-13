@@ -525,3 +525,114 @@ exports.getTimeline = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+
+exports.deleteScrapbook=async (req,res)=>{
+  try {
+    const scrapbook = await Scrapbook.findById(req.params.id);
+    const io = req.app.get("io");
+    if (!scrapbook) {
+      return res.status(404).json({ message: "Scrapbook not found" });
+    }
+
+    // Only the owner can delete the scrapbook
+    if (scrapbook.owner.toString() !== req.user._id) {
+        // Check if user is collaborator
+      const isCollaborator = scrapbook.collaborators.some(
+        (collab) => collab.toString() === req.user._id.toString()
+      );
+      if (isCollaborator) {
+        scrapbook.collaborators = scrapbook.collaborators.filter(
+        (collab) => collab.toString() !== req.user._id.toString()
+      );
+      // Add to timeline
+      scrapbook.timeline.push({
+        user: req.user._id,
+        action: "removed",
+        itemType: "collaborator",
+        details: {
+          collaborator: req.user._id,
+        },
+        timestamp: new Date(),
+      });
+      await scrapbook.save();
+      const timeline = {
+        ...scrapbook.timeline[scrapbook.timeline.length - 1].toObject(),
+        user: req.user,
+      };
+      // Notify clients via Socket.io, but exclude the sender
+      if (io) {
+        // io.to(`scrapbook:${scrapbook._id}`)
+        //   .except(`user:${req.user._id}`)
+        //   .emit("collaborator-removed", {
+        //     collaboratorId: req.user._id,
+        //     removedBy: {
+        //       userId: req.user._id,
+        //     },
+        //     timeline, // Send the latest timeline entry
+        //   });
+        scrapbook.collaborators.forEach((collab) => {
+          io.to(`user:${collab.toString()}`)
+            .except(`user:${req.user._id}`)
+            .emit("collaborator-removed", {
+              collaboratorId: req.user._id,
+              removedBy: {
+                userId: req.user._id,
+              },
+              timeline, // Send the latest timeline entry
+            });
+        });
+        io.to(`user:${scrapbook.owner.toString()}`).emit("collaborator-removed", {
+          collaboratorId: req.user._id,
+          removedBy: {
+            userId: req.user._id,
+          },
+          timeline, // Send the latest timeline entry
+        });
+      }
+      return res.status(200).json({
+        success: true,
+        message: "You have been removed from the scrapbook",
+        scrapbookId: req.params.id,
+        isOwner: false,
+       });
+      }
+      return res.status(403).json({ message: "Access denied" });
+    }
+
+    // Delete images from GCP
+    for (const item of scrapbook.items) {
+      if (item.type === "image") {
+        await deleteFile(item.content);
+      }
+    }
+
+    await Scrapbook.findByIdAndDelete(req.params.id);
+
+    // Notify clients via Socket.io, but exclude the sender
+    
+    if (io) {
+      scrapbook.collaborators.forEach((collab) => {
+        io.to(`user:${collab.toString()}`)
+        .except(`user:${req.user._id}`)
+        .emit("scrapbook-deleted", {
+          scrapbookId: req.params.id,
+          deletedBy: {
+            userId: req.user._id,
+          },
+        });
+      });
+      
+    }
+
+    res.json({ 
+      success: true,
+      isOwner: true,
+       message: "Scrapbook deleted successfully",
+        scrapbookId: req.params.id
+       });
+  } catch (error) {
+    console.log("Delete scrapbook error:", error.message);
+    res.status(500).json({ message: "Server error: "+error.message });
+  }
+};
