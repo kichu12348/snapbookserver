@@ -377,6 +377,8 @@ exports.addCollaborator = async (req, res) => {
       timestamp: new Date(),
     });
 
+    await scrapbook.populate("timeline.details.collaborator", "username avatar");
+
     await scrapbook.save();
 
     const timeline = {
@@ -462,6 +464,8 @@ exports.removeCollaborator = async (req, res) => {
       },
       timestamp: new Date(),
     });
+
+    await scrapbook.populate("timeline.details.collaborator", "username avatar");
 
     await scrapbook.save();
 
