@@ -15,33 +15,4 @@ router.post('/register', authController.register);
 router.post('/login', authController.login);
 
 
-// Add this route to your userRoutes.js file
-router.get('/search',auth, async (req, res) => {
-  try {
-    const { query } = req.query;
-    // Return empty array if query is too short
-    if (!query || query.length < 2) {
-      return res.json([]);
-    }
-    
-    // Search by username or email (excluding the current user)
-    const users = await User.find({
-      $and: [
-        { _id: { $ne: req.user.id } }, // Exclude current user
-        {
-          $or: [
-            { username: { $regex: query, $options: 'i' } },
-            { email: { $regex: query, $options: 'i' } }
-          ]
-        }
-      ]
-    }).select('username email avatar').limit(10);
-    
-    res.json(users);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Server error' });
-  }
-});
-
 module.exports = router;
