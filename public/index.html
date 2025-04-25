@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/public/style.css" />
+    <meta name="description" content="SnapBook API - The backend service powering collaborative digital scrapbooking." />
+    <meta name="keywords" content="SnapBook, API, digital scrapbooking, collaborative, Socket.IO" />
+    <meta name="author" content="Mahadevan Reji" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="icon" href="/public/favicon.ico" type="image/x-icon" />
+    <title>SnapBook API</title>
+  </head>
+  <body>
+    <div class="stars" id="stars"></div>
+    <div class="constellation"></div>
+
+    <div class="container">
+      <header>
+        <div class="logo">
+          <h1>SnapBook API</h1>
+        </div>
+      </header>
+
+      <main>
+        <section class="hero">
+          <svg class="hero-bg" viewBox="0 0 100 20" preserveAspectRatio="none">
+            <path d="M0,10 Q25,20 50,10 T100,10" fill="none" stroke="#7b68ee" stroke-width="0.2" />
+            <path d="M0,15 Q35,25 70,15 T100,15" fill="none" stroke="#9370db" stroke-width="0.2" />
+            <path d="M0,5 Q15,15 30,5 T100,5" fill="none" stroke="#8a2be2" stroke-width="0.2" />
+          </svg>
+          <h2>Welcome to the SnapBook API</h2>
+          <p>
+            The backend service powering collaborative digital scrapbooking.
+            Explore the features below.
+          </p>
+          <div class="fact-box">
+            <svg class="fact-icon" viewBox="0 0 24 24" width="24" height="24">
+              <circle cx="12" cy="12" r="10" fill="none" stroke="#7b68ee" stroke-width="1.5" />
+              <path d="M12 8v4m0 4h.01" stroke="#7b68ee" stroke-width="2" stroke-linecap="round" />
+            </svg>
+            <span id="fun-fact">SnapBook uses Socket.IO for real-time collaboration!</span>
+          </div>
+        </section>
+
+        <section class="features">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" width="40" height="40">
+                <rect x="3" y="3" width="18" height="18" rx="2" fill="none" stroke="#7b68ee" stroke-width="1.5" />
+                <rect x="6" y="6" width="12" height="8" rx="1" fill="none" stroke="#7b68ee" stroke-width="1.5" />
+                <circle cx="10" cy="9" r="1" fill="#7b68ee" />
+                <path d="M6 18l4-4 2 2 6-6" stroke="#7b68ee" stroke-width="1.5" stroke-linecap="round" />
+              </svg>
+            </div>
+            <h3>Collect Memories</h3>
+            <p>
+              Endpoints for uploading photos, adding text, and organizing items
+              within a scrapbook.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" width="40" height="40">
+                <circle cx="9" cy="9" r="4" fill="none" stroke="#7b68ee" stroke-width="1.5" />
+                <circle cx="15" cy="15" r="4" fill="none" stroke="#7b68ee" stroke-width="1.5" />
+                <path d="M12 12l-2-2M14 10l2 2" stroke="#7b68ee" stroke-width="1.5" stroke-linecap="round" />
+                <path d="M11 6a6 6 0 0 1 6 6" stroke="#7b68ee" stroke-width="1" stroke-dasharray="1 2" />
+              </svg>
+            </div>
+            <h3>Collaborate in Real-time</h3>
+            <p>
+              WebSocket integration allows multiple users to interact with the
+              same scrapbook simultaneously.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" width="40" height="40">
+                <circle cx="12" cy="12" r="10" fill="none" stroke="#7b68ee" stroke-width="1.5" />
+                <path d="M12 6v6l4 2" stroke="#7b68ee" stroke-width="1.5" stroke-linecap="round" />
+                <path d="M7 19l10-10" stroke="#7b68ee" stroke-width="1" stroke-dasharray="1 2" />
+              </svg>
+            </div>
+            <h3>Timeline View</h3>
+            <p>
+              Track changes and contributions with a detailed timeline for each
+              scrapbook.
+            </p>
+          </div>
+        </section>
+
+        <section class="api-showcase">
+          <h3>API Endpoints</h3>
+          <div class="endpoints">
+            <div class="endpoint">
+              <div class="endpoint-method">GET</div>
+              <div class="endpoint-path">/api/scrapbooks</div>
+              <svg class="endpoint-icon" viewBox="0 0 24 24" width="24" height="24">
+                <path d="M3 7v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7" stroke="#8a2be2" stroke-width="1.5" stroke-linecap="round" />
+                <path d="M8 5h8m-4-2v4" stroke="#8a2be2" stroke-width="1.5" stroke-linecap="round" />
+              </svg>
+            </div>
+            <div class="endpoint">
+              <div class="endpoint-method">POST</div>
+              <div class="endpoint-path">/api/auth/login</div>
+              <svg class="endpoint-icon" viewBox="0 0 24 24" width="24" height="24">
+                <rect x="3" y="11" width="18" height="11" rx="2" stroke="#8a2be2" stroke-width="1.5" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4m-5 5h.01" stroke="#8a2be2" stroke-width="1.5" stroke-linecap="round" />
+              </svg>
+            </div>
+            <div class="endpoint">
+              <div class="endpoint-method">POST</div>
+              <div class="endpoint-path">/api/file/upload</div>
+              <svg class="endpoint-icon" viewBox="0 0 24 24" width="24" height="24">
+                <path d="M12 15V3m-4 4l4-4 4 4" stroke="#8a2be2" stroke-width="1.5" stroke-linecap="round" />
+                <path d="M8 12h-.5a3.5 3.5 0 0 0 0 7h9a3 3 0 0 0 0-6H16" stroke="#8a2be2" stroke-width="1.5" stroke-linecap="round" />
+              </svg>
+            </div>
+            <div class="endpoint">
+              <div class="endpoint-method">WS</div>
+              <div class="endpoint-path">/socket.io</div>
+              <svg class="endpoint-icon" viewBox="0 0 24 24" width="24" height="24">
+                <path d="M13 3L4 14h6l-1 7 9-11h-6l1-7z" stroke="#8a2be2" stroke-width="1.5" stroke-linejoin="round" />
+              </svg>
+            </div>
+          </div>
+        </section>
+
+        <section class="console-section">
+          <div class="console">
+            <div class="console-header">
+              <div class="console-dot"></div>
+              <div class="console-dot"></div>
+              <div class="console-dot"></div>
+              <div class="console-title">Try it out</div>
+            </div>
+            <div class="console-content">
+              <div class="console-line">$ curl -X GET https://snapbook.kichu.space</div>
+              <div class="console-response">
+                <span class="console-brace">{</span>
+                <br />
+                <span class="console-prop">&nbsp;&nbsp;"message"</span>: <span class="console-value">"Welcome to SnapBook API"</span>,
+                <br />
+                <span class="console-prop">&nbsp;&nbsp;"status"</span>: <span class="console-value">"online"</span>,
+                <br />
+                <span class="console-prop">&nbsp;&nbsp;"version"</span>: <span class="console-value">"1.0.0"</span>
+                <br />
+                <span class="console-brace">}</span>
+              </div>
+              <div class="console-cursor"></div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <div class="footer-content">
+          <div class="footer-stars">
+            <svg width="16" height="16" viewBox="0 0 24 24">
+              <path d="M12 2l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6z" fill="#7b68ee" />
+            </svg>
+            <svg width="16" height="16" viewBox="0 0 24 24">
+              <path d="M12 2l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6z" fill="#7b68ee" />
+            </svg>
+            <svg width="16" height="16" viewBox="0 0 24 24">
+              <path d="M12 2l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6z" fill="#7b68ee" />
+            </svg>
+          </div>
+          <p>&copy; 2025 SnapBook API. All rights reserved.</p>
+        </div>
+      </footer>
+    </div>
+
+    <script src="/public/script.js"></script>
+  </body>
+</html>
