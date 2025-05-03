@@ -1,35 +1,43 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const scrapbookController = require('../controllers/scrapbookController');
-const auth = require('../middleware/auth');
+const scrapbookController = require("../controllers/scrapbookController");
+const { auth } = require("../middleware/auth");
 
 // Get all scrapbooks
-router.get('/', auth, scrapbookController.getScrapbooks);
+router.get("/", auth, scrapbookController.getScrapbooks);
 
 // Create a new scrapbook
-router.post('/', auth, scrapbookController.createScrapbook);
+router.post("/", auth, scrapbookController.createScrapbook);
 
 // Get a specific scrapbook
-router.get('/:id', auth, scrapbookController.getScrapbook);
+router.get("/:id", auth, scrapbookController.getScrapbook);
 
 // Update scrapbook title
-router.put('/:id/title', auth, scrapbookController.updateTitle);
+router.put("/:id/title", auth, scrapbookController.updateTitle);
 
 // Add item to scrapbook
-router.post('/:id/items', auth, scrapbookController.addItem);
+router.post("/:id/items", auth, scrapbookController.addItem);
 
 // Remove item from scrapbook
-router.delete('/:scrapbookId/items/:itemId', auth, scrapbookController.removeItem);
+router.delete(
+  "/:scrapbookId/items/:itemId",
+  auth,
+  scrapbookController.removeItem
+);
 
 // Get timeline for a scrapbook
-router.get('/:id/timeline', auth, scrapbookController.getTimeline);
+router.get("/:id/timeline", auth, scrapbookController.getTimeline);
 
 // Add collaborator to scrapbook
-router.post('/:id/collaborators', auth, scrapbookController.addCollaborator);
+router.post("/:id/collaborators", auth, scrapbookController.addCollaborator);
 
 // Remove collaborator from scrapbook
-router.delete('/:id/collaborators/:collaboratorId', auth, scrapbookController.removeCollaborator);
+router.delete(
+  "/:id/collaborators/:collaboratorId",
+  auth,
+  scrapbookController.removeCollaborator
+);
 
-router.delete('/:id', auth, scrapbookController.deleteScrapbook);
+router.delete("/:id", auth, scrapbookController.deleteScrapbook);
 
 module.exports = router;

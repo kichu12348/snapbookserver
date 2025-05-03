@@ -5,7 +5,7 @@ const User = require('../models/User');
 const userMap = new Map(); // Store user data in memory
 
 // Middleware to verify JWT token
-module.exports = async function(req, res, next) {
+exports.auth = async function(req, res, next) {
   // Get token from header
   const token = req.header('x-auth-token');
 
@@ -42,4 +42,6 @@ module.exports = async function(req, res, next) {
 };
 
 
-exports.updateUserInMap = (userId,data) => userMap.set(userId, data); // Update user data in memory map
+exports.updateUserInMap = (userId,data) => {
+  userMap.set(userId, data); 
+}

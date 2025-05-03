@@ -273,6 +273,16 @@ exports.removeItem = async (req, res) => {
     if (removedItem.type === "image") {
       // Delete the image from GCP if it's an image item
       await deleteFile(removedItem.content);
+
+      // const imageTimeLineIndex = scrapbook.timeline.findIndex(
+      //   (item) =>
+      //     item.details.itemId.toString() === removedItem._id.toString() &&
+      //     item.action === "added" &&
+      //     item.itemType === "image"
+      // );
+      // if (imageTimeLineIndex !== -1) {
+      //   scrapbook.timeline[imageTimeLineIndex].details.content = null; // Set content to null in the timeline
+      // }
     }
 
     // Remove the item
