@@ -9,6 +9,9 @@ const User = require("../models/User");
 // @access  Private
 router.get("/me", auth, userController.getProfile);
 
+// @route   GET /api/users/profile/:username
+router.get("/profile/:username",userController.getUserProfile);
+
 // @route   PUT /api/users/me
 // @desc    Update user profile
 // @access  Private

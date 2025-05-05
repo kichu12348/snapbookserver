@@ -23,6 +23,42 @@ exports.getScrapbooks = async (req, res) => {
   }
 };
 
+// Get all scrapbooks for a specific user (both owned and collaborations)
+exports.getUserScrapbooks = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    
+    // Get user's own scrapbooks
+    const ownedScrapbooks = await Scrapbook.find({ owner: userId })
+      .populate("owner", "username avatar")
+      .populate("collaborators", "username avatar")
+      .sort({ updatedAt: -1 });
+      
+    // Get scrapbooks where user is a collaborator
+    const collaboratedScrapbooks = await Scrapbook.find({ 
+      collaborators: userId,
+      owner: { $ne: userId } // Exclude scrapbooks where user is also the owner
+    })
+      .populate("owner", "username avatar")
+      .populate("collaborators", "username avatar")
+      .sort({ updatedAt: -1 });
+    
+    res.json({
+      success: true,
+      ownedScrapbooks,
+      collaboratedScrapbooks,
+      counts: {
+        owned: ownedScrapbooks.length,
+        collaborated: collaboratedScrapbooks.length,
+        total: ownedScrapbooks.length + collaboratedScrapbooks.length
+      }
+    });
+  } catch (error) {
+    console.error("Get user scrapbooks error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 // Get a scrapbook by ID
 exports.getScrapbook = async (req, res) => {
   try {

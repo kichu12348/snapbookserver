@@ -17,8 +17,6 @@ const app = express();
 const server = http.createServer(app);
 const JWT_SECRET = process.env.JWT_SECRET || "snapbook-secret-key";
 
-
-
 // Initialize Socket.io with CORS
 const io = socketIo(server, {
   cors: {
@@ -181,21 +179,61 @@ app.use("/api/users", userRoutes);
 app.use("/api/scrapbooks", require("./routes/scrapbookRoutes"));
 app.use("/api/file", require("./GCP/upload"));
 
-
 const mainPage = fs.readFileSync(
   path.join(__dirname, "public", "index.html"),
   "utf-8"
 );
+
+const profilePage = fs.readFileSync(
+  path.join(__dirname, "public", "profile.html"),
+  "utf-8"
+);
+
 // Base route for API health check
 app.get("/", (req, res) => {
   res.send(mainPage);
 });
 
 // Serve static files from the public directory
-app.get("/public/:filename",(req,res)=>{
+app.get("/public/:filename", (req, res) => {
   const filename = req.params.filename;
   const filePath = path.join(__dirname, "public", filename);
   res.sendFile(filePath);
+});
+
+// User profile route
+app.get("/:username", async (req, res, next) => {
+  try {
+    if (
+      !req.params.username ||
+      req.params.username === "" ||
+      !req.params.username.includes("@")
+    ) {
+      return res.redirect("/");
+    }
+    const username = req.params.username.replace("@", "");
+
+    if (username === "public" || username === "app" || username === "api") {
+      return next();
+    }
+
+    // Check if user exists
+    const user = await User.findOne({
+      username: { $regex: new RegExp(`^${username}$`, "i") },
+    }).select("-password -__v");
+    if (!user) {
+      return res.send(`
+        <h1>User not found</h1>
+        <p>Sorry, we couldn't find a user with the username "@${username}".</p>
+        `);
+    }
+
+    // Send the profile page
+    res.send(profilePage);
+  } catch (error) {
+    console.error("Error in profile route:", error);
+    res.status(500).send("Server error");
+  }
 });
 
 // Start server (using http server for Socket.io)

@@ -38,6 +38,9 @@ router.delete(
   scrapbookController.removeCollaborator
 );
 
+// Get all scrapbooks for a specific user (both owned and collaborations)
+router.get("/user/:userId/all", scrapbookController.getUserScrapbooks);
+
 router.delete("/:id", auth, scrapbookController.deleteScrapbook);
 
 module.exports = router;

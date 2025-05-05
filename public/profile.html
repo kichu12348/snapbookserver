@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/public/profile.css" />
+    <meta name="description" content="SnapBook user profile - View user's scrapbooks and collaborations" />
+    <meta name="keywords" content="SnapBook, profile, digital scrapbooking, collaborative" />
+    <meta name="author" content="Mahadevan Reji" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="icon" href="/public/favicon.ico" type="image/x-icon" />
+    <title>SnapBook - User Profile</title>
+  </head>
+  <body>
+    <div class="stars" id="stars"></div>
+    <div class="constellation"></div>
+
+    <div class="container">
+      <header>
+        <div class="logo">
+          <h1>SnapBook</h1>
+        </div>
+      </header>
+
+      <main>
+        <section class="profile-hero">
+          <div class="profile-header">
+            <div class="profile-header-pattern"></div>
+            <svg class="hero-bg" viewBox="0 0 100 20" preserveAspectRatio="none">
+              <path d="M0,10 Q25,20 50,10 T100,10" fill="none" stroke="#7b68ee" stroke-width="0.2" />
+              <path d="M0,15 Q35,25 70,15 T100,15" fill="none" stroke="#9370db" stroke-width="0.2" />
+              <path d="M0,5 Q15,15 30,5 T100,5" fill="none" stroke="#8a2be2" stroke-width="0.2" />
+            </svg>
+          </div>
+          
+          <div class="profile-container">
+            <div class="profile-avatar" id="profile-avatar">
+              <div class="avatar-placeholder"></div>
+            </div>
+            <div class="profile-info">
+              <h2 id="username">Loading profile...</h2>
+              <p id="user-bio">Please wait while we fetch this user's information.</p>
+              <div class="profile-stats">
+                <div class="stat">
+                  <span id="scrapbooks-count">0</span>
+                  <span>Scrapbooks</span>
+                </div>
+                <div class="stat">
+                  <span id="collaborations-count">0</span>
+                  <span>Collaborations</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="scrapbooks-section">
+          <h3>My Scrapbooks</h3>
+          <div id="user-scrapbooks" class="scrapbooks-grid">
+            <div class="loading-animation">
+              <div class="loading-dot"></div>
+              <div class="loading-dot"></div>
+              <div class="loading-dot"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="scrapbooks-section">
+          <h3>Collaborations</h3>
+          <div id="user-collaborations" class="scrapbooks-grid">
+            <div class="loading-animation">
+              <div class="loading-dot"></div>
+              <div class="loading-dot"></div>
+              <div class="loading-dot"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- <section class="timeline-section">
+          <h3>Recent Activity</h3>
+          <div id="activity-timeline" class="timeline">
+            <div class="loading-animation">
+              <div class="loading-dot"></div>
+              <div class="loading-dot"></div>
+              <div class="loading-dot"></div>
+            </div>
+          </div>
+        </section> -->
+      </main>
+
+      <footer>
+        <div class="footer-content">
+          <div class="footer-stars">
+            <svg width="16" height="16" viewBox="0 0 24 24">
+              <path d="M12 2l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6z" fill="#7b68ee" />
+            </svg>
+            <svg width="16" height="16" viewBox="0 0 24 24">
+              <path d="M12 2l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6z" fill="#7b68ee" />
+            </svg>
+            <svg width="16" height="16" viewBox="0 0 24 24">
+              <path d="M12 2l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6z" fill="#7b68ee" />
+            </svg>
+          </div>
+          <p>&copy; 2025 SnapBook. All rights reserved.</p>
+        </div>
+      </footer>
+    </div>
+
+    <script src="/public/profile.js"></script>
+  </body>
+</html>
