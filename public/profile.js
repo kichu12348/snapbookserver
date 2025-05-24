@@ -126,12 +126,9 @@ function displayScrapbooks(scrapbooks, containerId) {
   }
 
   scrapbooks.forEach((scrapbook) => {
-    const coverImage = scrapbook.items.filter(
-      (item) => item.type === "image" && item.content
-    )[0]?.content;
     const scrapbookCard = document.createElement("div");
     scrapbookCard.className = "scrapbook-card";
-
+    
     // Format the date nicely
     const createdDate = new Date(scrapbook.createdAt);
     const formattedDate = createdDate.toLocaleDateString(undefined, {
@@ -143,14 +140,14 @@ function displayScrapbooks(scrapbooks, containerId) {
     scrapbookCard.innerHTML = `
       <div class="scrapbook-preview">
         ${
-          !coverImage
+          !scrapbook.coverImage
             ? `<img 
             src="https://storage.googleapis.com/snapbook_bucket/temp-image.webp" 
             alt="Scrapbook Cover" 
             style="width: 100%; height: 100%; object-fit: cover;" 
             loading="lazy"
             />`
-            : `<img src="${coverImage}" 
+            : `<img src="${scrapbook.coverImage}" 
             alt="Scrapbook Cover" 
             style="width: 100%; height: 100%; object-fit: cover;" 
             onerror="this.onerror=null; this.src='https://storage.googleapis.com/snapbook_bucket/temp-image.webp'"
@@ -161,10 +158,10 @@ function displayScrapbooks(scrapbooks, containerId) {
       </div>
       <div class="scrapbook-info">
         <h4>${scrapbook.title}</h4>
-        <p>${scrapbook.items?.length || 0} items in this scrapbook</p>
+        <p>${scrapbook.itemsLength} items in this scrapbook</p>
         <div class="scrapbook-meta">
           <span>${formattedDate}</span>
-          <span>${scrapbook.collaborators?.length || 0} collaborators</span>
+          <span>${scrapbook.collaboratorsLength} collaborators</span>
         </div>
       </div>
     `;
