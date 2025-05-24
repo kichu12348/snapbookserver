@@ -7,6 +7,11 @@
   color: #fff;
 }
 
+:root {
+  --primary-dark: #5a4bba;
+  --accent: #8a2be2;
+}
+
 body {
   background: linear-gradient(
     to bottom,
@@ -22,6 +27,20 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   position: relative;
+}
+
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, var(--primary-dark), var(--accent));
+}
+
+
+::-webkit-scrollbar-track {
+  background: rgb(0, 0, 0);
 }
 
 .stars {
